@@ -1,0 +1,3 @@
+---
+entr_dir: /var/lib/entr
+entr_version: "4.2"

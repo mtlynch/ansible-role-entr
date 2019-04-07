@@ -1,0 +1,30 @@
+---
+- name: install mercurial
+  apt:
+    name: mercurial
+    state: present
+    
+- name: create entr directory
+  file:
+    path: "{{ entr_dir }}"
+    state: directory
+    recurse: yes
+    owner: "{{ ansible_user }}"
+    group: "{{ ansible_user }}"
+    mode: 0755
+
+- name: download entr source
+  hg:
+    repo: https://bitbucket.org/eradman/entr
+    dest: "{{ entr_dir }}"
+    revision: "entr-{{ entr_version }}"
+
+- name: configure entr build
+  command: ./configure
+  args:
+    chdir: "{{ entr_dir }}"
+
+- name: install entr
+  command: make install
+  args:
+    chdir: "{{ entr_dir }}" 
